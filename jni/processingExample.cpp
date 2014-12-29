@@ -25,8 +25,6 @@
 // for native asset manager
 #include <sys/types.h>
 #include <android/asset_manager.h>
-#include <android/asset_manager_jni.h>
-
 #include <algorithm>
 #include <cerrno>
 #include <cmath>
@@ -109,8 +107,6 @@ bool processingExample() {
 	// code.
 	////////////////////////////////////////////////////////////////////////////
 
-	__android_log_print(ANDROID_LOG_ERROR, "bad", "1");
-
 	using namespace LE;
 
 #define LE_SAMPLE_DIRECTORY "samples/"
@@ -133,6 +129,7 @@ bool processingExample() {
 #else // Windows & OSX
 	Utility::SpecialLocations const resultsLocation = Utility::CWD;
 #endif // OS
+
 	char const inputVoiceFileName[] = LE_SAMPLE_DIRECTORY "Speech.mp3";
 	char const inputBackgroundFileName[] = LE_SAMPLE_DIRECTORY "Background.mp3";
 	char const inputMIDIFileName[] = LE_SAMPLE_DIRECTORY "Melody.mid";
@@ -140,15 +137,17 @@ bool processingExample() {
 
 	typedef float sample_t;
 	typedef std::auto_ptr<sample_t> Buffer;
-
+	__android_log_print(ANDROID_LOG_ERROR, "bad", "1");
 	AudioIO::File backgroundFile;
 	char const * pErrorMessage(
 			backgroundFile.open < resourcesLocation
 					> (inputBackgroundFileName));
 	if (pErrorMessage) {
+		__android_log_print(ANDROID_LOG_ERROR, "bad", "1.5");
 		Utility::Tracer::formattedError(
 				"Failed to open background input file: %s (%s, errno: %d).",
 				inputBackgroundFileName, pErrorMessage, errno);
+		__android_log_print(ANDROID_LOG_ERROR, "bad", "1.6");
 		return false;
 	}
 
@@ -440,10 +439,9 @@ extern "C" jstring Java_com_example_ledemo_MainActivity_modify(JNIEnv* env,
 		__android_log_print(ANDROID_LOG_ERROR, "melodify", "jClass null");
 
 	sleep(3);
-	//app_dummy();
 	LE::Utility::setAppContext(*g_VM, jj, assetManager);
 
-	entryPoint();
+	//entryPoint();
 
 	return env->NewStringUTF("Hi");
 }
@@ -648,8 +646,8 @@ extern "C" void Java_com_example_ledemo_MainActivity_createBufferQueueAudioPlaye
 	(void) result;
 
 	// register callback on the buffer queue
-	result = (*bqPlayerBufferQueue)->RegisterCallback(bqPlayerBufferQueue,
-			NULL, NULL);
+	result = (*bqPlayerBufferQueue)->RegisterCallback(bqPlayerBufferQueue, NULL,
+			NULL);
 	assert(SL_RESULT_SUCCESS == result);
 	(void) result;
 

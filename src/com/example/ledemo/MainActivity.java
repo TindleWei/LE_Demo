@@ -54,7 +54,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				
-				modify(assetManager, "background.mp3");
+				String a = modify(assetManager, "background.mp3");
+				Log.e("FUCK",a);
 //				if (!created) {
 //					created = createAssetAudioPlayer(assetManager,
 //							"background.mp3");
