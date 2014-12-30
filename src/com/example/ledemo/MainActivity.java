@@ -1,12 +1,9 @@
 package com.example.ledemo;
 
-import java.io.File;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +19,43 @@ public class MainActivity extends Activity {
 
 	String pathDir;
 	Activity activity;
+	
+	public native void javaCallJNI();
+	public native void setJNI(AssetManager assetManager);
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        assetManager = getAssets();
+        
+        Log.i("onCreate", "Native function begining");
+        javaCallJNI();
+        Log.i("onCreate", "Native function ending");
+        
+        setJNI(assetManager);
+        
+        btn = (Button) findViewById(R.id.btn);
+
+		btn.setOnClickListener(new View.OnClickListener() {
+
+			boolean created = false;
+
+			@Override
+			public void onClick(View view) {
+
+				
+			}
+		});
+    }
+
+    void callFromCPP() {
+        Log.i("callFromCPP", "JNI can call JAVA !");
+        return ;
+    }
+
+    /**
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,10 +79,12 @@ public class MainActivity extends Activity {
 //				e.printStackTrace();
 //			} 
 
-		setActivity(this);//, assetManager);
+		setActivity(activity);//, assetManager);
+		
 		init();
 	}
-	
+	*/
+    
 	public native void setActivity(Activity mActivity);//, AssetManager mAsset);
 
 //	/** Native methods, implemented in jni folder */

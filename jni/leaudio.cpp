@@ -47,21 +47,25 @@ JNIEXPORT void JNICALL Java_com_example_ledemo_MainActivity_setActivity(JNIEnv *
 JavaVM *gJavaVm = NULL;
 jobject gActivity;
 
-jint JNI_OnLoad(JavaVM *javaVm, void *reserved) {
-	gJavaVm = javaVm;
-	return JNI_VERSION_1_6;
-}
+//jint JNI_OnLoad(JavaVM *javaVm, void *reserved) {
+//	gJavaVm = javaVm;
+//	return JNI_VERSION_1_6;
+//}
 
 JNIEXPORT void JNICALL Java_com_example_ledemo_MainActivity_setActivity(JNIEnv * env, jobject obj, jobject activity) {
 
 	int check = gJavaVm->GetEnv((void **) &env, JNI_VERSION_1_6);
-	LOGE("Detach destructor ==: %d", check);
-	if (check != JNI_EDETACHED)
-	int detach = gJavaVm->DetachCurrentThread();
+//	LOGE("Detach destructor ==: %d", check);
+//	if (check != JNI_EDETACHED)
+//	int detach = gJavaVm->DetachCurrentThread();
 
-	gActivity = env->NewGlobalRef(activity);
+	//gJavaVm->AttachCurrentThread(&env, NULL);
 
-	LE::Utility::setAppContext(*gJavaVm, gActivity);
+	gActivity = env->NewGlobalRef(obj);
+
+	//LE::Utility::setAppContext(*gJavaVm, gActivity);
+
+	//gJavaVm->DetachCurrentThread();
 }
 
 extern "C" bool Java_com_example_ledemo_MainActivity_my(JNIEnv* env,
