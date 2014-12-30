@@ -11,7 +11,7 @@
 #include "le/audioio/file.hpp"
 #include "le/audioio/outputWaveFile.hpp"
 
-#include "le/melodify/melodifyer.cpp"
+#include "le/melodify/melodifyer.hpp"
 
 #include "le/utility/entryPoint.hpp"
 #include "le/utility/filesystem.hpp"
@@ -34,61 +34,65 @@
 #include <memory>
 #include <new>
 
+#define  LOG_TAG    "jniAudio"
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+// can log anything like: LOGI("JNI INIT");
 
-extern "C" jstring Java_com_example_ledemo_MainActivity_modify(JNIEnv* env,
-		jclass clazz ) {
+#define JNI_VERSION_1_6 0x00010006
 
-	using namespace LE;
+extern "C" {
+JNIEXPORT void JNICALL Java_com_example_ledemo_MainActivity_setActivity(JNIEnv * env, jobject obj, jobject activity);
+};
 
-	__android_log_print(ANDROID_LOG_ERROR, "melodify", "start");
+JavaVM *gJavaVm = NULL;
+jobject gActivity;
 
-	// convert Java string to UTF-8
-//	const char *utf8 = env->GetStringUTFChars(filename, NULL);
-//	assert(NULL != utf8);
-//
-	// use asset manager to open asset by filename
-//	AAssetManager* mgr = AAssetManager_fromJava(env, assetManager);
-//	assert(NULL != mgr);
-	//AAsset* asset = AAssetManager_open(mgr, utf8, AASSET_MODE_UNKNOWN);
-
-//	// release the Java string and UTF-8
-//	env->ReleaseStringUTFChars(filename, utf8);
-
-	env->GetJavaVM(&g_VM);
-
-	g_VM->AttachCurrentThread(&env, NULL);
-
-	if (g_VM != NULL)
-		__android_log_print(ANDROID_LOG_ERROR, "melodify", "not null");
-	else
-		__android_log_print(ANDROID_LOG_ERROR, "melodify", "null");
-
-	jclass jj = env->FindClass("com/example/ledemo/MainActivity");
-
-	if (jj != NULL)
-		__android_log_print(ANDROID_LOG_ERROR, "melodify", "jClass not null");
-	else
-		__android_log_print(ANDROID_LOG_ERROR, "melodify", "jClass null");
-
-	sleep(3);
-	LE::Utility::setAppContext(*g_VM, jj, assetManager);
-
-	//entryPoint();
-
-	return env->NewStringUTF("Hi");
+jint JNI_OnLoad(JavaVM *javaVm, void *reserved) {
+	gJavaVm = javaVm;
+	return JNI_VERSION_1_6;
 }
 
-bool startMelodify(){
+JNIEXPORT void JNICALL Java_com_example_ledemo_MainActivity_setActivity(JNIEnv * env, jobject obj, jobject activity) {
+
+	int check = gJavaVm->GetEnv((void **) &env, JNI_VERSION_1_6);
+	LOGE("Detach destructor ==: %d", check);
+	if (check != JNI_EDETACHED)
+	int detach = gJavaVm->DetachCurrentThread();
+
+	gActivity = env->NewGlobalRef(activity);
+
+	LE::Utility::setAppContext(*gJavaVm, gActivity);
+}
+
+extern "C" bool Java_com_example_ledemo_MainActivity_my(JNIEnv* env,
+		jclass clazz, jstring inputPath, jstring backMusic, jstring midMusic,
+		jstring outputPath) {
+
 	using namespace LE;
 
 	Utility::SpecialLocations const resourcesLocation = Utility::AbsolutePath;
 
-	Utility::SpecialLocations const resultsLocation = Utility::ExternalStorage;
+	Utility::SpecialLocations const resultsLocation = Utility::AbsolutePath;
 
-	char const inputVoiceFileName[] = "Speech.mp3";
-	char const inputBackgroundFileName[] = "Background.mp3";
-	char const inputMIDIFileName[] = "Melody.mid";
-	char const outputFileName[] = "MelodifyedSpeech.wav";
+	const char *input = env->GetStringUTFChars(inputPath, NULL);
+	const char *back = env->GetStringUTFChars(backMusic, NULL);
+	const char *mid = env->GetStringUTFChars(midMusic, NULL);
+	const char *output = env->GetStringUTFChars(outputPath, NULL);
+
+	char inputVoiceFileName[] = "";
+	char inputBackgroundFileName[] = "";
+	char inputMIDIFileName[] = "";
+	char outputFileName[] = "";
+
+	strcpy(inputVoiceFileName, input);
+	strcpy(inputBackgroundFileName, back);
+	strcpy(inputMIDIFileName, mid);
+	strcpy(outputFileName, output);
+
+	env->ReleaseStringUTFChars(inputPath, input);
+	env->ReleaseStringUTFChars(backMusic, back);
+	env->ReleaseStringUTFChars(midMusic, mid);
+	env->ReleaseStringUTFChars(outputPath, output);
 
 	typedef float sample_t;
 	typedef std::auto_ptr<sample_t> Buffer;
@@ -188,7 +192,6 @@ bool startMelodify(){
 			"Done: %.2f ms of data, %.2f ms processing time (%.2f ratio, %.0f ksamples/second).\n",
 			dataMilliseconds, elapsedMilliseconds, processingSpeedRatio,
 			totalProcessedSamples / elapsedMilliseconds);
-
 
 	////////////////////////////////////////////////////////////////////////////
 	// Save the processed data:
@@ -328,14 +331,7 @@ bool startMelodify(){
 
 	Utility::Tracer::message("Done.");
 
-	return true;
+	//return true;
 
 }
-
-
-
-
-
-
-
 

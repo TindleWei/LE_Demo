@@ -13,5 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Jni" />
+    
+    <Button
+        android:id="@+id/btn2"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn"
+        android:text="Melodify" />
 
 </RelativeLayout>
