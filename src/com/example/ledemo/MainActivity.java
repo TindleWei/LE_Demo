@@ -8,20 +8,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LELib.onMelodifyListener{
 
 	Button btn;
 	Button btn2;
 
 	static AssetManager assetManager;
 
-	static boolean isPlayingAsset = false;
-
 	String pathDir;
 	Activity activity;
+	LELib leLib;
 	
-	public native void javaCallJNI();
-	public native void setJNI(AssetManager assetManager);
+	@Override
+	public void onMelodifyFinished() {
+		Log.e("MainActivity","back success");
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,83 +30,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         assetManager = getAssets();
+        leLib = LELib.getInstance();
         
-        Log.i("onCreate", "Native function begining");
-        javaCallJNI();
-        Log.i("onCreate", "Native function ending");
-        
-        setJNI(assetManager);
-        
-        btn = (Button) findViewById(R.id.btn);
-
-		btn.setOnClickListener(new View.OnClickListener() {
-
-			boolean created = false;
-
-			@Override
-			public void onClick(View view) {
-
-				
-			}
-		});
+        init();
     }
-
-    void callFromCPP() {
-        Log.i("callFromCPP", "JNI can call JAVA !");
-        return ;
-    }
-
-    /**
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		activity = this;
-
-		assetManager = getAssets();
-
-//		createEngine();
-//		createBufferQueueAudioPlayer();
-
-		String path = Environment.getExternalStorageDirectory()
-				.getAbsolutePath();
-		pathDir = path + "/LEAUDIO/";
-		
-//		File file=new File(pathDir+"myvoice.wav"); 
-//		if(!file.exists())
-//			try {
-//				file.createNewFile();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			} 
-
-		setActivity(activity);//, assetManager);
-		
-		init();
-	}
-	*/
-    
-	public native void setActivity(Activity mActivity);//, AssetManager mAsset);
-
-//	/** Native methods, implemented in jni folder */
-//	public static native void createEngine();
-//
-//	public static native void createBufferQueueAudioPlayer();
-//
-//	public static native boolean createAssetAudioPlayer(
-//			AssetManager assetManager, String filename);
-//
-//	public static native void setPlayingAssetAudioPlayer(boolean isPlaying);
-//
-//	public static native String modify(AssetManager assetManager,
-//			String fileName);
-//
-	public native boolean my(String input, String background,
-			String mid, String output);
-
-	static {
-		System.loadLibrary("little-effect");
-	}
 
 	private void init() {
 		btn = (Button) findViewById(R.id.btn);
@@ -113,21 +41,9 @@ public class MainActivity extends Activity {
 
 		btn.setOnClickListener(new View.OnClickListener() {
 
-			boolean created = false;
-
 			@Override
 			public void onClick(View view) {
-
-				//String a = modify(assetManager, "background.mp3");
-
-				// if (!created) {
-				// created = createAssetAudioPlayer(assetManager,
-				// "background.mp3");
-				// }
-				// if (created) {
-				// isPlayingAsset = !isPlayingAsset;
-				// setPlayingAssetAudioPlayer(isPlayingAsset);
-				// }
+				leLib.callback();
 			}
 		});
 
@@ -137,17 +53,17 @@ public class MainActivity extends Activity {
 			public void onClick(View view) {
 
 				try {
-					
-					
-					my(pathDir + "Speech.mp3", pathDir + "Background.mp3",
-							pathDir + "Melody.mid", pathDir
-									+ "myvoice.wav");
+					leLib.initLE(assetManager);
+//					leLib.setMelodifyFile(pathDir + "Speech.mp3", pathDir
+//					+ "myvoice.wav", pathDir + "Background.mp3",
+//							pathDir + "Melody.mid");
 				} catch (Exception e) {
-					Log.e("OOOOch", "!!!");
 				}
 			}
 		});
 
 	}
+
+	
 
 }

@@ -24,8 +24,8 @@ include $(MY_LOCAL_PATH)/le_utility.mk
 LOCAL_PATH := ${MY_LOCAL_PATH}
 include $(CLEAR_VARS)
 
-LOCAL_MODULE           := little-effect
-LOCAL_SRC_FILES        := processingExample.cpp leaudio.cpp example.cpp
+LOCAL_MODULE           := liblittle-effect
+LOCAL_SRC_FILES        := processingExample.cpp melodify.cpp
 #LOCAL_CFLAGS           += -std=gnu++11 -fno-exceptions -fno-rtti -Wall -Wno-multichar -Wno-non-template-friend -Wno-unused-local-typedefs -Wno-unknown-warning-option
 LOCAL_LDLIBS           += -llog -landroid
 LOCAL_STATIC_LIBRARIES := le_melodify_sdk le_audioio le_utility android_native_app_glue

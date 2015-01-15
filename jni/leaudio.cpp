@@ -38,6 +38,11 @@
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 // can log anything like: LOGI("JNI INIT");
 
+//=============================================================================
+// I write it to test
+//=============================================================================
+
+
 #define JNI_VERSION_1_6 0x00010006
 
 extern "C" {

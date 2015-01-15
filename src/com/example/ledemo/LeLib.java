@@ -1,11 +1,42 @@
 package com.example.ledemo;
 
-public class LeLib {
+import android.content.res.AssetManager;
+
+public class LELib {
+	public static LELib le;
+
+	public LELib() {
+	}
+
+	public static LELib getInstance() {
+		if (le == null)
+			le = new LELib();
+		return le;
+	}
+
+	static {
+		System.loadLibrary("little-effect");
+	}
+	
+	public native void initLE(AssetManager assetManager);
+
+	public native void setMelodifyFile(String inputPath, String outputPath,
+			String backPath, String midPath);
+	
+	public native void callback();
 
 	
-	public static native boolean entryPoint();
+	public void myCallback(){
+		listener.onMelodifyFinished();
+	}
 	
-	static {
-		System.loadLibrary("liblittle-effect");
+	onMelodifyListener listener;
+
+	public interface onMelodifyListener {
+		
+		public void onMelodifyFinished();
+
 	}
 }
+
+
