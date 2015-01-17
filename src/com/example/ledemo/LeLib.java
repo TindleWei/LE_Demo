@@ -1,5 +1,7 @@
 package com.example.ledemo;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 
 public class LELib {
@@ -19,9 +21,12 @@ public class LELib {
 	}
 	
 	public native void initLE(AssetManager assetManager);
-
-	public native void setMelodifyFile(String inputPath, String outputPath,
-			String backPath, String midPath);
+	
+	public native void initLE2(Activity activity, AssetManager assetManager);
+	
+	public native void initLE3(Activity activity, AssetManager assetManager);
+	
+	public native void initLE4(Context context, AssetManager assetManager);
 	
 	public native void callback();
 

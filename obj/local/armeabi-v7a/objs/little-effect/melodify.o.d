@@ -80,7 +80,12 @@
   /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/configuration.h \
   /Users/mac/Documents/workspace/LE_Demo/include/le/utility/sleep.hpp \
   /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/log.h \
-  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/asset_manager_jni.h
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/asset_manager_jni.h \
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/stdio.h \
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/stdio.h \
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/wchar.h \
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/wctype.h \
+  /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/linux/threads.h
 
 /Users/mac/Documents/workspace/LE_Demo/include/le/audioio/device.hpp:
 
@@ -245,3 +250,13 @@
 /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/log.h:
 
 /Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/android/asset_manager_jni.h:
+
+/Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/stdio.h:
+
+/Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/stdio.h:
+
+/Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/wchar.h:
+
+/Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/sources/cxx-stl/llvm-libc++/../../android/support/include/wctype.h:
+
+/Coder/adt-bundle-mac-x86_64-20140702/android-ndk-r9d/platforms/android-14/arch-arm/usr/include/linux/threads.h:

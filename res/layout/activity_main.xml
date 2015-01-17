@@ -12,7 +12,7 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Callback" />
+        android:text="Melodify" />
     
     <Button
         android:id="@+id/btn2"
@@ -20,24 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn"
-        android:text="Melodify" />
+        android:text="Melodify2" />
     
     <Button
         android:id="@+id/btn3"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn"
-        android:text="Melodify2" />
+        android:layout_below="@id/btn2"
+        android:text="Melodify3" />
     
     <Button
         android:id="@+id/btn4"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn"
-        android:text="Melodify3" />
-    
-    
+        android:layout_below="@id/btn3"
+        android:text="Melodify4" />
 
 </RelativeLayout>
